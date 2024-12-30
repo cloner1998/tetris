@@ -19,10 +19,12 @@ public class BoardServices {
             for(int col = 0; col < shape[row].length; col++){
                 int gridX = newX + col;
                 int gridY = newY + row;
-                if (gridX < 0 || gridX >= board.getWidth() ||    // Left and right walls
-                        gridY < 0 || gridY >= board.getHeight()) {   // Top and bottom
+                // for walls
+                if (gridX < 0 || gridX >= board.getWidth() ||
+                        gridY < 0 || gridY >= board.getHeight()) {
                     return false;
                 }
+                // for collision
                 if (gridY >= 0 &&  boardGrid[gridX][gridY] != 0) {
                     return false;
                 }
@@ -33,12 +35,23 @@ public class BoardServices {
         return true;
     }
     public void movePieceDown () {
+        //ToDo()
     }
 
     public void movePieceRight() {
+        //ToDo()
     }
 
     public void movePieceLeft() {
+        //ToDo()
+    }
 
+    public void lockPiece() {
+        //ToDo()
+    }
+
+    public int ClearLines() {
+        //ToDo()
+        return 0;
     }
 }

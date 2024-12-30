@@ -2,13 +2,18 @@ package controller;
 
 import models.Board;
 import models.GameState;
-import models.Tetrimino;
+import movement.InputType;
 import serivces.BoardServices;
+import serivces.GameStateService;
+import view.GameObserver;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController{
     private BoardServices boardServices;
+    private GameStateService gameStateService;
 
     public Board board;
     public GameState gameState;
@@ -18,6 +23,35 @@ public class GameController{
         this.board = new Board(10, 20);
         this.gameState = new GameState();
         initializeGameTimer();
+    }
+
+    public void handleInput(InputType input) {
+        if (gameState.isPaused()) return;
+
+        switch(input) {
+            case LEFT:
+                moveCurrentPieceLeft();
+                break;
+            case RIGHT:
+                moveCurrentPieceRight();
+                break;
+            case DOWN:
+                moveCurrentPieceDown();
+                break;
+            case ROTATE:
+                rotateCurrentPiece();
+                break;
+            case DROP:
+                hardDrop();
+                break;
+            case PAUSE:
+                gameStateService.togglePause();
+                break;
+        }
+    }
+
+    private void rotateCurrentPiece() {
+        // ToDo(yet we do not have rotation)
     }
 
     private void moveCurrentPieceDown() {
@@ -46,11 +80,40 @@ public class GameController{
         notifyViewUpdate();
     }
 
-    private void notifyViewUpdate() {
+    private void hardDrop() {
+        while (boardServices.isValidMove(board.getCurrentPiece(), 0, 1)){
+            boardServices.movePieceDown();
+        }
+        lockPieceAndSpawnNew();
+        notifyViewUpdate();
     }
 
+
     private void lockPieceAndSpawnNew() {
-        
+        boardServices.lockPiece();
+        checkForLineClears();
+        spawnNewPiece();
+        checkGameOver();
+    }
+
+    private void checkGameOver() {
+        //ToDo()
+    }
+
+    private void spawnNewPiece() {
+        //ToDo()
+    }
+
+    private void checkForLineClears() {
+        int linesCleared = boardServices.ClearLines();
+        if(linesCleared > 0){
+            gameStateService.UpdateScore(linesCleared);
+        }
+        UpdateLevel();
+    }
+
+    private void UpdateLevel() {
+        gameStateService.IncrementLevel();
     }
 
     private void initializeGameTimer() {
@@ -60,6 +123,16 @@ public class GameController{
         gameTimer.start();
     }
 
+    private List<GameObserver> observers = new ArrayList<>();
+
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+    private void notifyViewUpdate() {
+        for (GameObserver observer : observers) {
+            observer.onGameUpdate(board.getGrid(), gameState.getScore(), gameState.getLevel());
+        }
+    }
 
 
 }
