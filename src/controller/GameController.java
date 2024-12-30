@@ -28,6 +28,23 @@ public class GameController{
         }
         notifyViewUpdate();
     }
+    private void moveCurrentPieceRight() {
+        if(boardServices.isValidMove(board.getCurrentPiece(), 1, 0)){
+            boardServices.movePieceRight();
+        }else{
+            lockPieceAndSpawnNew();
+        }
+        notifyViewUpdate();
+    }
+
+    private void moveCurrentPieceLeft() {
+        if(boardServices.isValidMove(board.getCurrentPiece(), -1, 0)){
+            boardServices.movePieceLeft();
+        }else{
+            lockPieceAndSpawnNew();
+        }
+        notifyViewUpdate();
+    }
 
     private void notifyViewUpdate() {
     }
