@@ -80,7 +80,20 @@ public class BoardServices {
     }
 
     public void lockPiece() {
-        //ToDo()
+        Tetrimino currentPiece = board.getCurrentPiece();
+        int[][] boardGrid = board.getGrid();
+        int[][] shape = currentPiece.getShape();
+
+        for (int row =0; row < shape.length; row++) {
+            for (int col = 0; col < shape[row].length; col++) {
+                if (shape[row][col] != 0) {
+                    int gridX = currentPiece.getX() + col;
+                    int gridY = currentPiece.getY() + row;
+                    boardGrid[gridX][gridY] = shape[row][col];
+                }
+            }
+        }
+        board.setGrid(boardGrid);
     }
 
     public int clearLines() {
