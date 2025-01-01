@@ -101,9 +101,9 @@ public class GameController{
     }
 
     private void checkForLineClears() {
-        int linesCleared = boardServices.clearLines();
-        if(linesCleared > 0){
-            gameStateService.UpdateScore(linesCleared);
+        int numberOfLinesCleared = boardServices.numberOfClearLines();
+        if(numberOfLinesCleared > 0){
+            gameStateService.UpdateScore(numberOfLinesCleared);
         }
         UpdateLevel();
     }

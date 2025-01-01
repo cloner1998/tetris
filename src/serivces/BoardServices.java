@@ -3,9 +3,10 @@ package serivces;
 import models.Board;
 import models.Tetrimino;
 
+import java.util.Arrays;
+
 public class BoardServices {
     public Board board;
-
 
 
     public boolean isValidMove(Tetrimino currentPiece, int deltaX, int deltaY) {
@@ -15,8 +16,8 @@ public class BoardServices {
         int newX = currentPiece.getX() + deltaX;
         int newY = currentPiece.getY() + deltaY;
 
-        for(int row = 0;row < shape.length;row++){
-            for(int col = 0; col < shape[row].length; col++){
+        for (int row = 0; row < shape.length; row++) {
+            for (int col = 0; col < shape[row].length; col++) {
                 int gridX = newX + col;
                 int gridY = newY + row;
                 // for walls
@@ -25,7 +26,7 @@ public class BoardServices {
                     return false;
                 }
                 // for collision
-                if (gridY >= 0 &&  boardGrid[gridX][gridY] != 0) {
+                if (gridY >= 0 && boardGrid[gridX][gridY] != 0) {
                     return false;
                 }
             }
@@ -34,15 +35,16 @@ public class BoardServices {
 
         return true;
     }
-    public void movePieceDown () {
+
+    public void movePieceDown() {
         Tetrimino currentPiece = board.getCurrentPiece();
-        if(currentPiece == null){
+        if (currentPiece == null) {
             return;
         }
         if (isValidMove(currentPiece, 0, 1)) {
             currentPiece.setY(board.getCurrentPiece().getY() + 1);
 
-        }else {
+        } else {
             lockPiece();
             spawnNewPiece();
             clearLines();
@@ -51,13 +53,13 @@ public class BoardServices {
 
     public void movePieceRight() {
         Tetrimino currentPiece = board.getCurrentPiece();
-        if(currentPiece == null){
+        if (currentPiece == null) {
             return;
         }
         if (isValidMove(currentPiece, 1, 0)) {
             currentPiece.setY(board.getCurrentPiece().getX() + 1);
 
-        }else {
+        } else {
             lockPiece();
             spawnNewPiece();
             clearLines();
@@ -66,13 +68,13 @@ public class BoardServices {
 
     public void movePieceLeft() {
         Tetrimino currentPiece = board.getCurrentPiece();
-        if(currentPiece == null){
+        if (currentPiece == null) {
             return;
         }
         if (isValidMove(currentPiece, -1, 0)) {
             currentPiece.setY(board.getCurrentPiece().getX() - 1);
 
-        }else {
+        } else {
             lockPiece();
             spawnNewPiece();
             clearLines();
@@ -84,7 +86,7 @@ public class BoardServices {
         int[][] boardGrid = board.getGrid();
         int[][] shape = currentPiece.getShape();
 
-        for (int row =0; row < shape.length; row++) {
+        for (int row = 0; row < shape.length; row++) {
             for (int col = 0; col < shape[row].length; col++) {
                 if (shape[row][col] != 0) {
                     int gridX = currentPiece.getX() + col;
@@ -96,12 +98,39 @@ public class BoardServices {
         board.setGrid(boardGrid);
     }
 
-    public int clearLines() {
-        //ToDo()
-        return 0;
+    public void clearLines() {
+        int[][] boardGrid = board.getGrid();
+        int rowLength = boardGrid.length;
+        int colLength = boardGrid[0].length;
+        for (int row = rowLength-1; row >= 0; row--) {
+            boolean isFull = true;
+            for (int col = 0; col < colLength; col++) {
+                if (boardGrid[row][col] == 0) {
+                    isFull = false;
+                    break;
+                }
+            }
+
+            if (isFull) {
+                boardGrid[row][colLength-1] = 0;
+                for (int moveRow = row; moveRow >0; moveRow--) {
+                    System.arraycopy(boardGrid[moveRow - 1], 0, boardGrid[moveRow], 0, colLength);
+                }
+                Arrays.fill(boardGrid[0], 0);
+                row ++;
+
+            }
+
+        }
+
+        board.setGrid(boardGrid);
     }
 
     public void spawnNewPiece() {
         //ToDo()
+    }
+
+    public int numberOfClearLines() {
+        return 0;
     }
 }
