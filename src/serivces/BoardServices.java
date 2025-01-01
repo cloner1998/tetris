@@ -100,7 +100,8 @@ public class BoardServices {
         board.setGrid(boardGrid);
     }
 
-    public void clearLines() {
+    public int clearLines() {
+        int lines = 0;
         int[][] boardGrid = board.getGrid();
         int rowLength = boardGrid.length;
         int colLength = boardGrid[0].length;
@@ -120,12 +121,14 @@ public class BoardServices {
                 }
                 Arrays.fill(boardGrid[0], 0);
                 row ++;
+                lines++;
 
             }
 
         }
 
         board.setGrid(boardGrid);
+        return lines;
     }
 
     public void spawnNewPiece() {
@@ -158,9 +161,4 @@ public class BoardServices {
         }
     }
 
-
-
-    public int numberOfClearLines() {
-        return 0;
-    }
 }
