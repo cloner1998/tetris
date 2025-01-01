@@ -1,4 +1,4 @@
-package movement;
+package inputs;
 
 public enum InputType {
     LEFT, RIGHT, DOWN,

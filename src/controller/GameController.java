@@ -2,7 +2,7 @@ package controller;
 
 import models.Board;
 import models.GameState;
-import movement.InputType;
+import inputs.InputType;
 import serivces.BoardServices;
 import serivces.GameStateService;
 import view.GameObserver;

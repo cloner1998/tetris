@@ -1,9 +1,11 @@
 package serivces;
 
+import inputs.Shapes;
 import models.Board;
 import models.Tetrimino;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class BoardServices {
     public Board board;
@@ -127,8 +129,36 @@ public class BoardServices {
     }
 
     public void spawnNewPiece() {
-        //ToDo()
+        Random random = new Random();
+        Shapes shapes = new Shapes();
+        int[][][] allShapes = {
+                shapes.IShape[0],
+                shapes.squareShape[0],
+                shapes.TShape[0],
+                shapes.LShape[0],
+                shapes.JShape[0],
+                shapes.SShape[0],
+                shapes.ZShape[0]
+        };
+
+        int pieceIndex = random.nextInt(allShapes.length);
+        int[][] shape = allShapes[pieceIndex];
+
+        Tetrimino newPiece = new Tetrimino(
+                shape,
+                ((board.getWidth() - shape[0].length) / 2),
+                0,
+                0 // does not implement color yet
+        );
+
+        if(!isValidMove(newPiece, 0, 0)) {
+            board.setGameOver(true);
+        }else {
+            board.setCurrentPiece(newPiece);
+        }
     }
+
+
 
     public int numberOfClearLines() {
         return 0;
