@@ -35,23 +35,60 @@ public class BoardServices {
         return true;
     }
     public void movePieceDown () {
-        //ToDo()
+        Tetrimino currentPiece = board.getCurrentPiece();
+        if(currentPiece == null){
+            return;
+        }
+        if (isValidMove(currentPiece, 0, 1)) {
+            currentPiece.setY(board.getCurrentPiece().getY() + 1);
+
+        }else {
+            lockPiece();
+            spawnNewPiece();
+            clearLines();
+        }
     }
 
     public void movePieceRight() {
-        //ToDo()
+        Tetrimino currentPiece = board.getCurrentPiece();
+        if(currentPiece == null){
+            return;
+        }
+        if (isValidMove(currentPiece, 1, 0)) {
+            currentPiece.setY(board.getCurrentPiece().getX() + 1);
+
+        }else {
+            lockPiece();
+            spawnNewPiece();
+            clearLines();
+        }
     }
 
     public void movePieceLeft() {
-        //ToDo()
+        Tetrimino currentPiece = board.getCurrentPiece();
+        if(currentPiece == null){
+            return;
+        }
+        if (isValidMove(currentPiece, -1, 0)) {
+            currentPiece.setY(board.getCurrentPiece().getX() - 1);
+
+        }else {
+            lockPiece();
+            spawnNewPiece();
+            clearLines();
+        }
     }
 
     public void lockPiece() {
         //ToDo()
     }
 
-    public int ClearLines() {
+    public int clearLines() {
         //ToDo()
         return 0;
+    }
+
+    public void spawnNewPiece() {
+        //ToDo()
     }
 }

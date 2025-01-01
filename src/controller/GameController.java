@@ -92,7 +92,7 @@ public class GameController{
     private void lockPieceAndSpawnNew() {
         boardServices.lockPiece();
         checkForLineClears();
-        spawnNewPiece();
+        boardServices.spawnNewPiece();
         checkGameOver();
     }
 
@@ -100,12 +100,8 @@ public class GameController{
         //ToDo()
     }
 
-    private void spawnNewPiece() {
-        //ToDo()
-    }
-
     private void checkForLineClears() {
-        int linesCleared = boardServices.ClearLines();
+        int linesCleared = boardServices.clearLines();
         if(linesCleared > 0){
             gameStateService.UpdateScore(linesCleared);
         }
